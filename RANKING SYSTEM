@@ -1,0 +1,58 @@
+def score_rank_generator(students: list[tuple[str, int]]) -> list[tuple[str, int, str]]:
+    if not students:
+        return []
+    sorted_students = sorted(students, key=lambda x: (-x[1], x[0]))
+    n = len(sorted_students)
+
+    output = []
+    prev_score = None
+    rank_position = 0  
+
+    for i, (name, score) in enumerate(sorted_students):
+        if score != prev_score:
+            rank_position = i  
+        prev_score = score
+
+        percentile = rank_position / n
+
+        if percentile < 0.10:
+            rank = "Gold"
+        elif percentile < 0.50:
+            rank = "Silver"
+        else:
+            rank = "Bronze"
+
+        output.append((name, score, rank))
+
+    return output
+
+
+    
+    
+
+def main():
+    print("--- Score Rank Generator ---")
+    students = []
+
+    while True:
+        name = input("Enter student name (or GIVE ENTER to finish): ").strip()
+        if name.lower() == '':
+            break
+        try:
+            score = int(input(f"Enter score for {name}: "))
+            students.append((name, score))
+        except ValueError:
+            print("Invalid score. Please enter an integer.")
+
+    if not students:
+        print("No student records entered.")
+        return
+
+    ranked_students = score_rank_generator(students)
+
+    print("\n--- Ranking Result ---")
+    for name, score, rank in ranked_students:
+        print(f"{name}: {score} → {rank}")
+
+if __name__ == "__main__":
+    main()
