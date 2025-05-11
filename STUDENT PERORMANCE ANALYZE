@@ -1,0 +1,52 @@
+def classify_student(score):
+    if score >= 85:
+        return "Excellent"
+    elif score >= 70:
+        return "Average"
+    else:
+        return "Needs Improvement"
+
+def main():
+    students = []
+
+    while True:
+        print("\n--- Student Performance Analyzer ---")
+        action = input("Type 'add' to add student record or 'analyze' to get performance report (or 'exit' to quit): ").strip().lower()
+
+        if action == 'add':
+            name = input("Enter student name: ")
+            try:
+                score = float(input("Enter test score: "))
+                students.append({'name': name, 'score': score})
+                print(f"Record added for {name}.")
+            except ValueError:
+                print("Invalid input. Please enter a numeric score.")
+
+        elif action == 'analyze':
+            if not students:
+                print("No student records available.")
+                continue
+
+            search_name = input("Enter the student name to analyze: ").strip()
+            student_found = False
+
+            for student in students:
+                if student['name'].lower() == search_name.lower():
+                    classification = classify_student(student['score'])
+                    print(f"\nPerformance Report for {student['name']}:")
+                    print(f" - Score: {student['score']}")
+                    print(f" - Classification: {classification}")
+                    student_found = True
+                    break
+
+            if not student_found:
+                print("Student not found.")
+
+        elif action == 'exit':
+            print("Exiting program.")
+            break
+        else:
+            print("wrong answer Please choose 'add', 'analyze', or 'exit'.")
+
+if __name__ == "__main__":
+    main()
